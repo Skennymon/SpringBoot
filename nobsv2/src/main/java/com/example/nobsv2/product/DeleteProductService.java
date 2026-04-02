@@ -4,7 +4,7 @@ import com.example.nobsv2.Command;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
+// we use interface to enforce what how the execute() function should behave
 @Service
 public class DeleteProductService implements Command<Void, String> {
     @Override
