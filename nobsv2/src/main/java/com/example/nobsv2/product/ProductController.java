@@ -1,9 +1,12 @@
 package com.example.nobsv2.product;
 
+import com.example.nobsv2.exceptions.ProductNotFoundException;
+import com.example.nobsv2.product.model.ErrorResponse;
 import com.example.nobsv2.product.model.Product;
 import com.example.nobsv2.product.model.ProductDTO;
 import com.example.nobsv2.product.model.UpdateProductCommand;
 import com.example.nobsv2.product.services.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,13 +20,15 @@ public class ProductController {
     private final UpdateProductService updateProductService;
     private final DeleteProductService deleteProductService;
     private final GetProductService getProductService;
+    private final SearchProductService searchProductService;
 
-    public ProductController(CreateProductService createProductService, GetProductsService getProductsService, UpdateProductService updateProductService, DeleteProductService deleteProductService, GetProductService getProductService) {
+    public ProductController(CreateProductService createProductService, GetProductsService getProductsService, UpdateProductService updateProductService, DeleteProductService deleteProductService, GetProductService getProductService, SearchProductService searchProductService) {
         this.createProductService = createProductService;
         this.getProductsService = getProductsService;
         this.updateProductService = updateProductService;
         this.deleteProductService = deleteProductService;
         this.getProductService = getProductService;
+        this.searchProductService = searchProductService;
     }
 
     @PostMapping("/product")
@@ -40,6 +45,11 @@ public class ProductController {
     @GetMapping("/product/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Integer id) {
         return getProductService.execute(id);
+    }
+
+    @GetMapping("/product/search")
+    public ResponseEntity<List<ProductDTO>> searchProductByName(@RequestParam String name) {
+        return searchProductService.execute(name);
     }
 
     @PutMapping("/product/{id}")

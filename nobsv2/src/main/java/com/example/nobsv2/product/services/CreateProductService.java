@@ -1,9 +1,13 @@
 package com.example.nobsv2.product.services;
 
 import com.example.nobsv2.Command;
+import com.example.nobsv2.exceptions.ErrorMessages;
+import com.example.nobsv2.exceptions.ProductNotValidException;
 import com.example.nobsv2.product.ProductRepository;
 import com.example.nobsv2.product.model.Product;
 import com.example.nobsv2.product.model.ProductDTO;
+import com.example.nobsv2.validators.ProductValidator;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,9 +23,12 @@ public class CreateProductService implements Command<Product, ProductDTO> {
 
     @Override
     public ResponseEntity<ProductDTO> execute(Product product) {
+        // validate before saving
+        // ProductValidator.execute(product);
 
         Product savedProduct = productRepository.save(product);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(new ProductDTO(savedProduct));
     }
+
+
 }
