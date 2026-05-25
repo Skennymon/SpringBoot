@@ -1,7 +1,10 @@
 package com.example.nobsv2.mappings;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Table(name="address")
@@ -21,6 +24,13 @@ public class Address {
 
     @Column(name="state")
     private String state;
+
+    @Column(name="customer_id")
+    private Integer customerId;
+
+    @ManyToMany(mappedBy = "addresses")
+    @JsonIgnore // this is necessary to avoid infinite recursion when constructing the JSON because there is a circular reference
+    private List<Customer> customers;
 
 
 }

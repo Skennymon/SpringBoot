@@ -3,6 +3,8 @@ package com.example.nobsv2.mappings;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Table(name="customer")
 @Data
@@ -20,9 +22,9 @@ public class Customer {
     private String last_name;
 
     // CascadeType.ALL is when you update the customer, the address will automatically update as well
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="address_id")
-    private Address address;
+    @ManyToMany
+    @JoinTable(name="customer_address", joinColumns=@JoinColumn(name="customer_id"), inverseJoinColumns=@JoinColumn(name="address_id"))
+    private List<Address> addresses;
 
 
 }
