@@ -7,6 +7,7 @@ import com.example.nobsv2.product.model.ProductDTO;
 import com.example.nobsv2.product.model.UpdateProductCommand;
 import com.example.nobsv2.product.services.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +43,7 @@ public class ProductController {
     }
 
     // new get mapping to find by id
-    @GetMapping("/product/{id}")
+    @GetMapping(value = "/product/{id}", produces = MediaType.APPLICATION_JSON_VALUE) // crashes when calling this on the browser and not postman, prob cus of some dependency issue with converting to xml or smt like that
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Integer id) {
         return getProductService.execute(id);
     }
